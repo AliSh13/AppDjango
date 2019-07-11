@@ -1,0 +1,14 @@
+{% extends 'learning_app/base.html' %}
+{% block content %}
+  <p>Темы:</p>
+  <ul>
+
+    {% for topic in topics %}
+      <li> {{ topic }} </li>
+    {% empty %}
+      <li>Ещё не создано ни одной темы.</li>
+    {% endfor %}
+
+  </ul>
+
+{% endblock content %}

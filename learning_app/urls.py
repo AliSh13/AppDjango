@@ -20,6 +20,7 @@ from django.urls import path, re_path
 import learning_app.views as views
 
 urlpatterns =[
-    re_path(r'^$', views.index, name ='index'),
+    path('', views.index, name='index'),
+    path('topics/', views.topics, name='topics'),
 
 ]
