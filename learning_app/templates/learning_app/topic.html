@@ -1,0 +1,18 @@
+{% extends 'learning_app/base.html' %}
+{% block content %}
+  <p>Тема: {{topic}}</p>
+  <p>записи по теме:</p>
+  <ul>
+
+    {% for entry in entries %}
+      <li>
+        <p>{{ entry.date_add }}</p>
+        <p>{{ entry.text|linebreaks }}</p>
+       </li>
+    {% empty %}
+      <li>Пока нет записей по этой теме.</li>
+    {% endfor %}
+
+  </ul>
+
+{% endblock content %}
