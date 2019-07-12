@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from learning_app.models import Topic, Entry
-from learning_app.forms import TopicForm
+from learning_app.forms import TopicForm, EntryForm
 
 def index(request):
     """представление главной страницы"""
@@ -23,7 +23,7 @@ def topic(request, topic_id):
     return render(request,'learning_app/topic.html', context)
 
 def new_topic(request):
-    """ вывод формы для новой темы """
+    """ вывод формы для новой темы и обработка """
     if request.method != 'POST':
         form = TopicForm()
     else:
@@ -35,3 +35,18 @@ def new_topic(request):
 
     context = {'form': form}
     return render(request,'learning_app/new_topic.html', context)
+
+def new_entry(request,topic_id):
+    """ вывод формы для новой записи по теме и обработка """
+    topic = Topic.objects.get(id=topic_id)
+    if request.method != 'POST':
+        form = EntryForm()
+    else:
+        form = EntryForm(data = request.POST)
+        if form.is_valid():
+            new_entry = form.save(commit = False)
+            new_entry.name_topic = topic
+            new_entry.save()
+            return HttpResponseRedirect(reverse('topic', args=[topic_id]))
+    context = {'form': form, 'topic': topic}
+    return render(request,'learning_app/new_entry.html', context )

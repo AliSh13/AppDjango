@@ -2,6 +2,7 @@
 {% block content %}
   <p>Тема: {{topic}}</p>
   <p>записи по теме:</p>
+  <a href="{% url 'new_entry' topic.id %}">Добавить запись.</a>
   <ul>
 
     {% for entry in entries %}
@@ -14,5 +15,6 @@
     {% endfor %}
 
   </ul>
+
 
 {% endblock content %}

@@ -7,4 +7,13 @@ class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ['name']
-        labels = {'name':''}
+        labels = {'text':''}
+
+class EntryForm(forms.ModelForm):
+    """Форма создания записи по теме"""
+    class Meta:
+        model = Entry
+        fields = ['text']
+        labels = {'text':''}
+        #изменяем ширину ввода текстового поля
+        widgets = {'text': forms.Textarea(attrs={'colos': 80})}
