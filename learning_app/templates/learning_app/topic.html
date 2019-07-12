@@ -9,6 +9,7 @@
       <li>
         <p>{{ entry.date_add }}</p>
         <p>{{ entry.text|linebreaks }}</p>
+        <a href="{% url 'edit_entry' entry.id %}">Редактировать запись.</a>
        </li>
     {% empty %}
       <li>Пока нет записей по этой теме.</li>
