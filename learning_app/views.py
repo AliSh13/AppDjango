@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from learning_app.models import Topic, Entry
 from learning_app.forms import TopicForm, EntryForm
@@ -9,12 +10,14 @@ def index(request):
     """представление главной страницы"""
     return render (request, 'learning_app/index.html')
 
+@login_required(login_url='login')
 def topics(request):
     """вывод всех тем"""
     topics = Topic.objects.order_by('date_add')
     context = {'topics' : topics}
     return render(request,'learning_app/topics.html', context)
 
+@login_required(login_url='login')
 def topic(request, topic_id):
     """вывод всех записей одной темы"""
     topic = Topic.objects.get(id=topic_id)
@@ -22,6 +25,7 @@ def topic(request, topic_id):
     context = {'topic': topic, 'entries': entries}
     return render(request,'learning_app/topic.html', context)
 
+@login_required(login_url='login')
 def new_topic(request):
     """ вывод формы для новой темы и обработка """
     if request.method != 'POST':
@@ -36,6 +40,7 @@ def new_topic(request):
     context = {'form': form}
     return render(request,'learning_app/new_topic.html', context)
 
+@login_required(login_url='login')
 def new_entry(request,topic_id):
     """ вывод формы для новой записи по теме и обработка """
     topic = Topic.objects.get(id=topic_id)
@@ -51,6 +56,7 @@ def new_entry(request,topic_id):
     context = {'form': form, 'topic': topic}
     return render(request,'learning_app/new_entry.html', context )
 
+@login_required(login_url='login')
 def edit_entry(request, entry_id):
     """редактирование старых записей"""
     entry = Entry.objects.get(id=entry_id)
