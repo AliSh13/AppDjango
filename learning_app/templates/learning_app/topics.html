@@ -1,18 +1,26 @@
 {% extends 'learning_app/base.html' %}
+{% load bootstrap3 %}
+
+{% block header %}
+
+  <h2>Темы</h2>
+
+{% endblock header %}
+
 {% block content %}
-  <p>Темы:</p>
   <ul>
 
     {% for topic in topics %}
       <li>
-        <a href="{% url 'topic' topic.id %}"> {{ topic }} </a>
+        <h3><a href="{% url 'topic' topic.id %}"> {{ topic }} </a></h3>
       </li>
     {% empty %}
       <li>Ещё не создано ни одной темы.</li>
     {% endfor %}
 
   </ul>
-  <a href="{% url 'new_topic' %}"> Создать тему.</a>
+  
+  <h3><a href="{% url 'new_topic' %}"> Создать новую тему.</a></h3>
 
 
 {% endblock content %}

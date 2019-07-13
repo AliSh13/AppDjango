@@ -1,21 +1,30 @@
 {% extends 'learning_app/base.html' %}
+{% load bootstrap3 %}
+
+{% block header %}
+
+  <h2>{{ topic }}</h2>
+
+{% endblock header %}
+
 {% block content %}
-  <p>Тема: {{topic}}</p>
-  <p>записи по теме:</p>
-  <a href="{% url 'new_entry' topic.id %}">Добавить запись.</a>
-  <ul>
-
-    {% for entry in entries %}
-      <li>
-        <p>{{ entry.date_add }}</p>
-        <p>{{ entry.text|linebreaks }}</p>
-        <a href="{% url 'edit_entry' entry.id %}">Редактировать запись.</a>
-       </li>
-    {% empty %}
-      <li>Пока нет записей по этой теме.</li>
-    {% endfor %}
-
-  </ul>
-
+<p><a href="{% url 'new_entry' topic.id %}">Добавить запись.</a></p>
+{% for entry in entries %}
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3>{{ entry.date_add }}</h3>
+      <small>
+        <h4>
+          <a href="{% url 'edit_entry' entry.id %}">Редактировать запись.</a>
+        </h4>
+      </small>
+    </div>
+    <div class="panel-body">
+      <h3>{{ entry.text|linebreaks }}</h3>
+    </div>
+  </div>
+{% empty %}
+  <h3>Пока нет записей по этой теме.</h3>
+{% endfor %}
 
 {% endblock content %}

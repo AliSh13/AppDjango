@@ -1,13 +1,22 @@
 {% extends 'learning_app/base.html' %}
+{% load bootstrap3 %}
+
+{% block header %}
+
+  <h2>Войдите в свой аккаунт.</h2>
+
+{% endblock header %}
 
 {% block content %}
 
-  <form action="{% url 'login' %}" method="post">
+  <form action="{% url 'login' %}" method="post" class='form'>
     {% csrf_token %}
-    <h3> {{messege}} </h3>
-    {{form.as_p}}
+    {% bootstrap_form form %}
 
-    <button name="submit">Войти</button>
+    {% buttons %}
+      <button name="submit">Войти</button>
+    {% endbuttons %}
+
     <input type="hidden" name="next" value="{% url 'index' %}">
   </form>
 

@@ -1,6 +1,20 @@
 {% extends 'learning_app/base.html' %}
 
+{% block header %}
+  <div class="jumbotron">
+    <h1>Начните ваш журнал обучения.</h1>
+  </div>
+{% endblock header %}
+
 
 {% block content %}
+
+  {% if user.is_authenticated %}
+    <h2>Приступите к своему обучению, для этого создайте тему и начните делать записи</h2>
+  {% else %}
+    <h2>
+      <a href="{% url 'register' %}">Зарегестрируйтесь</a> и начните вести свой журнал.
+    </h2>
+  {% endif %}
 
 {% endblock content %}

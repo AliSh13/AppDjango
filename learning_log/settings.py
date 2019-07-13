@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #сторонние приложения
+    'bootstrap3',
     #my app
     'learning_app',
     'users',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,8 @@ DATE_FORMAT = 'd E Y'
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#setting gjango-bootstrap3
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
