@@ -1,0 +1,16 @@
+{% extends 'learning_app/base.html' %}
+
+{% block content %}
+
+  <form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <h3> {{messege}} </h3>
+    {{form.as_p}}
+
+    <button name="submit">регистрация</button>
+    <input type="hidden" name="next" value="{% url 'index' %}">
+  </form>
+
+
+
+{% endblock content %}

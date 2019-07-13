@@ -29,3 +29,25 @@ def logout_view(request):
     """Завершает сеанс работы с приложением"""
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+def register_view(request):
+    """ Регистрация """
+    if request.method != 'POST':
+        form = UserCreationForm()
+        context = {'form': form }
+        return render(request, 'users/register.html', context)
+    else:
+        form = UserCreationForm(data=request.POST)
+
+        if form.is_valid():
+            new_user = form.save()
+            username = new_user.username
+            password = request.POST['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
+
+    form = UserCreationForm()
+    messege = 'Не не подходящие данные, попробуйте снова.'
+    context = {'form': form, 'messege': messege}
+    return render(request, 'users/register.html', context)
