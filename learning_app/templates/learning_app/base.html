@@ -9,6 +9,12 @@
 <body>
   <a href="{% url 'index' %}">Главная страница </a>
   <a href="{% url 'topics' %}"> Мои темы </a>
+  {% if user.is_authenticated %}
+    Hello, {{ user.username }}.
+    <a href="{% url 'logout' %}">выход</a>
+  {% else %}
+    <a href="{% url 'login' %}">войти</a>
+  {% endif %}
   {%block content%} {%endblock content%}
 </body>
 </html>
