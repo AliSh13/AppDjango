@@ -1,10 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from learning_app.models import Topic, Entry
 from learning_app.forms import TopicForm, EntryForm
+
+def chek_topic_owner(request, topic):
+    """Проверяет что пользователь связан с темой"""
+    if topic.owner != request.user:
+        raise Http404
 
 def index(request):
     """представление главной страницы"""
@@ -13,7 +18,7 @@ def index(request):
 @login_required(login_url='login')
 def topics(request):
     """вывод всех тем"""
-    topics = Topic.objects.order_by('date_add')
+    topics = Topic.objects.filter(owner=request.user).order_by('date_add')
     context = {'topics' : topics}
     return render(request,'learning_app/topics.html', context)
 
@@ -21,6 +26,8 @@ def topics(request):
 def topic(request, topic_id):
     """вывод всех записей одной темы"""
     topic = Topic.objects.get(id=topic_id)
+    chek_topic_owner(request, topic)
+
     entries = topic.entry_set.order_by('-date_add')
     context = {'topic': topic, 'entries': entries}
     return render(request,'learning_app/topic.html', context)
@@ -34,16 +41,20 @@ def new_topic(request):
         #если произошел POST запрос(отправили данные); обработка данных
         form = TopicForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            new_topic = form.save(commit=False)
+            new_topic.owner = request.user
+            new_topic.save()
             return HttpResponseRedirect(reverse('topics'))
 
     context = {'form': form}
     return render(request,'learning_app/new_topic.html', context)
 
 @login_required(login_url='login')
-def new_entry(request,topic_id):
+def new_entry(request, topic_id):
     """ вывод формы для новой записи по теме и обработка """
     topic = Topic.objects.get(id=topic_id)
+    chek_topic_owner(request, topic)
+
     if request.method != 'POST':
         form = EntryForm()
     else:
@@ -53,6 +64,7 @@ def new_entry(request,topic_id):
             new_entry.name_topic = topic
             new_entry.save()
             return HttpResponseRedirect(reverse('topic', args=[topic_id]))
+
     context = {'form': form, 'topic': topic}
     return render(request,'learning_app/new_entry.html', context )
 
@@ -61,6 +73,7 @@ def edit_entry(request, entry_id):
     """редактирование старых записей"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.name_topic
+    chek_topic_owner(request, topic)
 
     if request.method != 'POST':
         form = EntryForm(instance=entry)

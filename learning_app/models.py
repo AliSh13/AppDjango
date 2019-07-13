@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Topic(models.Model):
     """ Тема, которую изучает пользователь. """
     name = models.CharField(max_length=200)
     date_add = models.DateField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
 
@@ -12,7 +14,7 @@ class Topic(models.Model):
 
 class Entry(models.Model):
     """Информация изученная пользователем по теме"""
-    name_topic = models.ForeignKey(Topic, on_delete=True)
+    name_topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     text = models.TextField()
     date_add = models.DateField(auto_now_add=True)
 
