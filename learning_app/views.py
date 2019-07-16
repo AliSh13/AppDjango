@@ -37,6 +37,7 @@ def new_topic(request):
     """ вывод формы для новой темы и обработка """
     if request.method != 'POST':
         form = TopicForm()
+        form.public = False
     else:
         #если произошел POST запрос(отправили данные); обработка данных
         form = TopicForm(data=request.POST)
