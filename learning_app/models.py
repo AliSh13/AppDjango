@@ -6,6 +6,7 @@ class Topic(models.Model):
     name = models.CharField(max_length=200)
     date_add = models.DateField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    public = models.BooleanField(default=False)
 
     def __str__(self):
 

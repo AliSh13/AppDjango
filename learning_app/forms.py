@@ -6,8 +6,8 @@ class TopicForm(forms.ModelForm):
     """Форма новой темы """
     class Meta:
         model = Topic
-        fields = ['name']
-        labels = {'text':''}
+        fields = ['name', 'public']
+        labels = {'text':'','public': 'Публичная'}
 
 class EntryForm(forms.ModelForm):
     """Форма создания записи по теме"""

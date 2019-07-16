@@ -18,7 +18,9 @@ def index(request):
 @login_required(login_url='login')
 def topics(request):
     """вывод всех тем"""
-    topics = Topic.objects.filter(owner=request.user).order_by('date_add')
+    topics_usr = Topic.objects.filter(owner=request.user).order_by('date_add')
+    topics_publ = Topic.objects.filter(public=True).order_by('date_add')
+    topics = topics_usr|topics_publ
     context = {'topics' : topics}
     return render(request,'learning_app/topics.html', context)
 
@@ -26,7 +28,8 @@ def topics(request):
 def topic(request, topic_id):
     """вывод всех записей одной темы"""
     topic = Topic.objects.get(id=topic_id)
-    chek_topic_owner(request, topic)
+    if not topic.public:
+        chek_topic_owner(request, topic)
 
     entries = topic.entry_set.order_by('-date_add')
     context = {'topic': topic, 'entries': entries}
@@ -37,7 +40,6 @@ def new_topic(request):
     """ вывод формы для новой темы и обработка """
     if request.method != 'POST':
         form = TopicForm()
-        form.public = False
     else:
         #если произошел POST запрос(отправили данные); обработка данных
         form = TopicForm(data=request.POST)
