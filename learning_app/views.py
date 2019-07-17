@@ -20,8 +20,8 @@ def topics(request):
     """вывод всех тем"""
     topics_usr = Topic.objects.filter(owner=request.user).order_by('date_add')
     topics_publ = Topic.objects.filter(public=True).order_by('date_add')
-    topics = topics_usr|topics_publ
-    context = {'topics' : topics}
+
+    context = {'topics_usr' : topics_usr, 'topics_publ': topics_publ}
     return render(request,'learning_app/topics.html', context)
 
 @login_required(login_url='login')
@@ -85,5 +85,6 @@ def edit_entry(request, entry_id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('topic', args=[topic.id]))
+
     context = {'form': form, 'topic': topic, 'entry': entry}
     return render(request,'learning_app/edit_entry.html', context )

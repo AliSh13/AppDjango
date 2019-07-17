@@ -3,14 +3,14 @@
 
 {% block header %}
 
-  <h2>Темы</h2>
+  <h2>Мои темы</h2>
 
 {% endblock header %}
 
 {% block content %}
   <ul>
 
-    {% for topic in topics %}
+    {% for topic in topics_usr %}
       <li>
         <h3><a href="{% url 'topic' topic.id %}">{{ topic }} <span class="badge">{{topic.entry_set.all|length}}</span></a></h3>
       </li>
@@ -20,7 +20,19 @@
 
   </ul>
 
-  <h3><a href="{% url 'new_topic' %}"> Создать новую тему.</a></h3>
+  <h4><a href="{% url 'new_topic' %}"> Создать новую тему.</a></h4>
+
+  <h2>Общие темы:</h2>
+  <ul>
+
+    {% for topic in topics_publ %}
+      <li>
+        <h3><a href="{% url 'topic' topic.id %}">{{ topic }} <span class="badge">{{topic.entry_set.all|length}}</span></a></h3>
+      </li>
+    {% endfor %}
+
+  </ul>
+
 
 
 {% endblock content %}
