@@ -11,9 +11,11 @@
   <ul>
 
     {% for topic in topics_usr %}
-      <li>
-        <h3><a href="{% url 'topic' topic.id %}">{{ topic }} <span class="badge">{{topic.entry_set.all|length}}</span></a></h3>
-      </li>
+      {% if topic not in topics_publ  %}
+        <li>
+          <h3><a href="{% url 'topic' topic.id %}">{{ topic }} <span class="badge">{{topic.entry_set.all|length}}</span></a></h3>
+        </li>
+      {% endif %}
     {% empty %}
       <li>Ещё не создано ни одной темы.</li>
     {% endfor %}
