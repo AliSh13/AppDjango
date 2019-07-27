@@ -5,8 +5,8 @@ class Topic(models.Model):
     """ Тема, которую изучает пользователь. """
     name = models.CharField(max_length=200, verbose_name = 'Тема')
     date_add = models.DateField(auto_now_add=True, verbose_name ='Дата добавления')
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name = 'пользователь' )
-    public = models.BooleanField(default=False,verbose_name = 'Публичная')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name = 'пользователь' )
+    public = models.BooleanField(default=False, verbose_name = 'Публичная')
 
     class Meta:
         verbose_name = 'Тема'
